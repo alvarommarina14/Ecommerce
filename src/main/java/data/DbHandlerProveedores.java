@@ -15,7 +15,7 @@ public class DbHandlerProveedores {
 	private String host = "localhost";
 	private String port = "3306";
 	private String user = "root";
-	private String password = "root";
+	private String password = "admin";
 	private String db = "tpsuper";
 	private String options = "?useLegacyDatetimeCode=false&serverTimezone=UTC";
 	// private String options="";

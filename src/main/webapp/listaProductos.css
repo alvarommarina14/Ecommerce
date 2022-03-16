@@ -75,15 +75,11 @@ table.paleBlueRows tfoot td {
 .child1{
 	width: 70%;
 	height: 100vh;
-	background-color: green;
 	text-align: center;
-	color: white;
 }
 .child2{
 	width: 30%;
-	padding: 30px;
 	height: 100vh;
-	border: green solid 5px;
 	margin: 50px;
 }
 
