@@ -28,6 +28,9 @@ if (proveedor != null) {
 %>
 </head>
 <body>
+<div class="Parent">
+
+		<div class="child1">
 
 	<form id="form" action="listaProveedores" method="post" class="form">
 		<table class="paleBlueRows">
@@ -61,38 +64,45 @@ if (proveedor != null) {
 			</tbody>
 		</table>
 	</form>
+	
+	</div>
+		<div class="child2">
 	<form id="form" action="listaProveedores" method="post">
 		<input type="hidden" name="id" value="<%=id%>">
 
-		<table>
+		<table class="tabla">
 			<tbody>
 				<tr>
-					<td>Nombre:</td>
-					<td><input type="text" name="nombre" value="<%=nombre%>"></td>
+					<td colspan=2>Nombre:</td>
+					<td colspan=4><input type="text" name="nombre" value="<%=nombre%>"></td>
 				</tr>
 				<tr>
-					<td>Cuil:</td>
-					<td><input type="text" name="cuil" value="<%=cuil%>"></td>
+					<td colspan=2>Cuil:</td>
+					<td colspan=4><input type="text" name="cuil" value="<%=cuil%>"></td>
 				</tr>
 				<tr>
-					<td>NroTelefono:</td>
-					<td><input type="text" name="nro" value="<%=nroTelefono%>"></td>
+					<td colspan=2>NroTelefono:</td>
+					<td colspan=4><input type="text" name="nro" value="<%=nroTelefono%>"></td>
 				</tr>
 				<tr>
-					<td>TipoTelefono:</td>
-					<td><input type="text" name="tipo" value="<%=tipoTelefono%>"></td>
+					<td colspan=2>TipoTelefono:</td>
+					<td colspan=4><input type="text" name="tipo" value="<%=tipoTelefono%>"></td>
 
 				</tr>
-
+				<tr>
+				<td colspan=2><button type="submit" name="order" value="add">Agregar</button></td>
+				<td colspan=2><button type="submit" name="order" value="modify">Modificar</button></td>
+				<td colspan=2><button type="submit" name="order" value="volver">Volver</button></td>
+		</tr>
 			</tbody>
 		</table>
 
-		<button type="submit" name="order" value="add">Agregar</button>
-		<button type="submit" name="order" value="modify">Modificar</button>
-		<button type="submit" name="order" value="volver">Volver</button>
+		
 		<br>
 	</form>
+</div>
 
+	</div>
 
 </body>
 </html>

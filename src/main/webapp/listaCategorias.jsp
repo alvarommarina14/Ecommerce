@@ -26,6 +26,10 @@ if(categoria!=null){
 </head>
 <body>
 
+<div class="Parent">
+
+		<div class="child1">
+
 <form id="form" action="listaCategorias" method="post" class="form">
 		<table class="paleBlueRows">
 			<thead>
@@ -50,26 +54,34 @@ if(categoria!=null){
 			</tbody>
 		</table>
 		</form>
+		</div>
+		<div class="child2">
 		<form id="form" action="listaCategorias" method="post">
 		<input type="hidden" name="id" value="<%=id%>">
 		
-		<table>
+		<table class="tabla">
 			<tbody>
 					<tr>
-					<td>Descripcion:</td>
-					<td><input type="text" name="desc" value="<%=descripcion%>"></td>
+					<td colspan=2>Descripcion:</td>
+					<td colspan=4><input type="text" name="desc" value="<%=descripcion%>"></td>
 				</tr>
-				
+				<tr>
+				<td colspan=2><button type="submit" name="order" value="add">Agregar</button></td>
+					<td colspan=2>
+				<button type="submit" name="order" value="modify">Modificar</button></td>
+					<td colspan=2>
+				<button type="submit" name="order" value="volver">Volver</button></td>
 				</tr>
 			</tbody>
 		</table>
 		
-		<button type="submit" name="order" value="add">Agregar</button>
-		<button type="submit" name="order" value="modify">Modificar</button>
-		<button type="submit" name="order" value="volver">Volver</button>
+		
 		<br>
 		</form>
 		
+		</div>
+
+	</div>
 
 </body>
 </html>

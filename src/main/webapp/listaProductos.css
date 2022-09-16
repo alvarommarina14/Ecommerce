@@ -10,9 +10,7 @@
 
 table.paleBlueRows {
 	font-family: "Times New Roman", Times, serif;
-	border: 1px solid #FFFFFF;
-	width: 350px;
-	height: 200px;
+	border: 1px solid #ffffff;
 	text-align: center;
 	border-collapse: collapse;
 	margin-left: auto;
@@ -29,12 +27,11 @@ table.paleBlueRows tbody td {
 }
 
 table.paleBlueRows tr:nth-child(even) {
-	background: #D0E4F5;
+	background: #d1aa88;
 }
 
 table.paleBlueRows thead {
-	background: #0B6FA4;
-	border-bottom: 5px solid #FFFFFF;
+	background: #000000;
 }
 
 table.paleBlueRows thead th {
@@ -80,6 +77,22 @@ table.paleBlueRows tfoot td {
 .child2{
 	width: 30%;
 	height: 100vh;
-	margin: 50px;
 }
 
+.tabla input{
+	width:100%;
+	border:0px;
+	padding:0px;
+}
+
+.tabla select{
+	width:100%;
+}
+
+.tabla button{
+	width:100%;
+}
+
+body{
+	background-color:#a07d5f
+}

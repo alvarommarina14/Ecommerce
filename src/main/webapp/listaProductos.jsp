@@ -94,11 +94,12 @@ if (producto != null) {
 			</form>
 		</div>
 		<div class="child2">
-			<form id="form" action="listaProductos" method="post">
-				<input type="hidden" name="id" value="<%=id%>">
+			<table class="tabla">
+				<tbody>
+					<form id="form" action="listaProductos" method="post">
+						<input type="hidden" name="id" value="<%=id%>">
 
-				<table>
-					<tbody>
+
 						<tr>
 							<td>Descripcion:</td>
 							<td><input type="text" name="desc" value="<%=descripcion%>"></td>
@@ -143,24 +144,37 @@ if (producto != null) {
 							</td>
 							<td>
 								<button type="submit" name="order" value="modify">Modificar</button>
+								</td>
 						</tr>
-					</tbody>
-				</table>
-
-			</form>
 
 
-			<form id="form" action="listaProductos" method="post" class="form">
-				<input type="text" name="valor"
-					placeholder="Ingrese el porcentaje de aumento (30% = 0.3)">
-				<button type="submit" name="order" value="updatePrices">Actualizar
-					precios por inflacion</button>
-			</form>
-			<form id="form" action="listaProductos" method="post" class="form">
-				<button type="submit" name="order" value="addCat">Categorías</button>
-				<button type="submit" name="order" value="addProv">Proovedores</button>
-				<br>
-			</form>
+					</form>
+					<tr>
+					<form id="form" action="listaProductos" method="post" class="form">
+					<td>
+						<input type="text" name="valor"
+							placeholder="Ingrese el porcentaje">
+							</td>
+							<td>
+						<button type="submit" name="order" value="updatePrices">Actualizar
+							precios por inflacion</button>
+							</td>
+					</form>
+					</tr>
+					<tr>
+					<form id="form" action="listaProductos" method="post" class="form">
+					<td>
+						<button type="submit" name="order" value="addCat">Categorías</button>
+						</td>
+							<td>
+						<button type="submit" name="order" value="addProv">Proovedores</button>
+						</td>
+						<br>
+					</form>
+					</tr>
+				</tbody>
+			</table>
+
 		</div>
 
 	</div>
