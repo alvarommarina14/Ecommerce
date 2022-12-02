@@ -115,13 +115,13 @@
         <h1 class="fw-light">Supermarket</h1>
         <p class="lead text-muted">Productos de calidad a la mano</p>
         <p>
-        <input type="text" id="name" name="descripcion" required minlength="4" maxlength="8" size="30">
         <form action="busquedaProducto" method="post">
+        	<input type="text" name="descripcion" size="30">
         	<button type="submit" name="product-search">Buscar</button>
         </form>
+        
 <!--           <a href="#" class="btn btn-primary my-2">Buscar</a> -->
 <!--           <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
-        </p>
       </div>
     </div>
   </section>
@@ -298,7 +298,9 @@
 <form action="listaProductos" method="post">
 	<button type="submit" name="order" value="desc">Productoss</button>
 </form>
-
+<!-- <form action="busquedaProducto" method="post"> -->
+<!-- 	<button type="submit" name="orderr" value="a">Busqueda</button> -->
+<!-- </form> -->
     
 </body>
 </html>

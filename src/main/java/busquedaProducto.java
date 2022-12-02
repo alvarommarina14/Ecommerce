@@ -43,14 +43,15 @@ public class busquedaProducto extends HttpServlet {
 		// TODO Auto-generated method stub
 		DbHandlerProductos dbProductos = new DbHandlerProductos();
 		DbHandlerCategorias dbCategorias = new DbHandlerCategorias();
-		String buscar = request.getParameter("product-search");
-		
+		String buscar = request.getParameter("descripcion");
 		LinkedList<Producto> productos =  dbProductos.selectProductoByDescripcion(buscar);
 		LinkedList<Categoria> categorias = dbCategorias.selectCategoria();
-		
+//		for(Producto p: productos) {
+//			System.out.println(p.getDescripcion());
+//		}
 		request.setAttribute("productos", productos);
 		request.setAttribute("categorias", categorias);
-		
+		request.getRequestDispatcher("busquedaProducto.jsp").forward(request, response);
 	}
 
 }

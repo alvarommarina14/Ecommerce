@@ -1,6 +1,5 @@
 package Entities;
 
-import javax.swing.ImageIcon;
 
 public class Producto {
 	
@@ -10,8 +9,15 @@ public class Producto {
 	Proveedor proveedor = new Proveedor();
 	Categoria categoria = new Categoria();
 	Double precio;
+	byte[] byteArr;
 	
 
+	public byte[] getByteArr() {
+		return byteArr;
+	}
+	public void setByteArr(byte[] byteArr) {
+		this.byteArr = byteArr;
+	}
 	public int getId() {
 		return id;
 	}

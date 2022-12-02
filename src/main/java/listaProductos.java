@@ -53,6 +53,7 @@ public class listaProductos extends HttpServlet {
 		
 		String order = request.getParameter("order");
 		Producto producto = null;
+		System.out.println(order);
 		if(order.equalsIgnoreCase("desc")) {
 			
 		}else if(order.equalsIgnoreCase("add")) {

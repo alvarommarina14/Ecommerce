@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -82,7 +83,9 @@ public class DbHandlerProductos {
 				Producto producto = new Producto();
 				Categoria categoria = new Categoria();
 				Proveedor proveedor = new Proveedor();
-				LinkedList<ImageIcon> fotos = new LinkedList<ImageIcon>();
+				Blob clob = rs.getBlob("foto");
+				byte[] byteArr = clob.getBytes(1,(int)clob.length());
+				
 				categoria.setId(rs.getInt("idCategoria"));
 				categoria.setDescripcion(rs.getString("cat-desc"));
 
@@ -98,14 +101,12 @@ public class DbHandlerProductos {
 				producto.setPrecio(rs.getDouble("valor"));
 				producto.setCategoria(categoria);
 				producto.setProveedor(proveedor);
+				producto.setByteArr(byteArr);
 				
-				Blob clob = rs.getBlob("foto");
-				byte[] byteArr = clob.getBytes(1,(int)clob.length());
-	 
-				FileOutputStream fileOutputStream = new FileOutputStream("C:\\newImage.jpg");
-				fileOutputStream.write(byteArr);  
+//				FileOutputStream fileOutputStream = new FileOutputStream("C:\\newImage.jpg");
+//				fileOutputStream.write(byteArr);  
 				productos.add(producto);
-				fileOutputStream.close();
+//				fileOutputStream.close();
 			}
 			return productos;
 		} catch (SQLException e) {
@@ -150,6 +151,7 @@ public class DbHandlerProductos {
 				Categoria categoria = new Categoria();
 				Proveedor proveedor = new Proveedor();
 
+				
 				categoria.setId(rs.getInt("idCategoria"));
 				categoria.setDescripcion(rs.getString("cat-desc"));
 
@@ -210,7 +212,8 @@ public class DbHandlerProductos {
 			while (rs != null && rs.next()) {
 				Categoria categoria = new Categoria();
 				Producto prod = new Producto();
-
+//				Blob clob = rs.getBlob("foto");
+//				byte[] byteArr = clob.getBytes(1,(int)clob.length());
 				categoria.setId(rs.getInt("idCategoria"));
 				categoria.setDescripcion(rs.getString("cat-desc"));
 
@@ -218,9 +221,9 @@ public class DbHandlerProductos {
 				prod.setDescripcion(rs.getString("prod-desc"));
 				prod.setStock(rs.getInt("stock"));
 				prod.setPrecio(rs.getDouble("precio.valor"));
-
+//				prod.setByteArr(byteArr);
 				prod.setCategoria(categoria);
-
+				
 				productos.add(prod);
 			}
 			return productos;

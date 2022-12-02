@@ -3,6 +3,7 @@
 <%@page import="Entities.Categoria"%>
 <%@page import="java.util.Collections"%>
 <%@page import="Entities.Proveedor"%>
+<%@page import="java.io.OutputStream" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -127,50 +128,38 @@
         <p class="lead text-muted">Productos de calidad a la mano</p>
         <p>
         <input type="text" id="desc" name="descripcion" required minlength="4" maxlength="8" size="30">
-          <a href="#" class="btn btn-primary my-2">Buscar</a>
           <button type="submit" name="product-search" value="buscar" class="astext" >Buscar</button>
-<!--           <a href="#" class="btn btn-secondary my-2">Secondary action</a> -->
         </p>
       </div>
     </div>
   </section>
-
+<%-- <h1><%productos.size(); %></h1> --%>
   <div class="album py-5 bg-light">
     <div class="container">
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-        <div class="col">
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-
-            <div class="card-body">
-              <p class="card-text">product</p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted">9 mins</small>
-              </div>
-            </div>
-          </div>
-        </div>
 
 		<%
 		for(Producto p: productos){
 		%>
         <div class="col">
+        <%response.setContentType("image/gif");
+      	 	OutputStream o = response.getOutputStream(); 
+       		o.write(p.getByteArr()); 
+ 			o.flush(); 
+       		o.close(); 
+        %> 
           <div class="card shadow-sm">
             <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
 
             <div class="card-body">
-              <p class="card-text"><%p.getDescripcion(); %></p>
+              <p class="card-text"><%=p.getDescripcion() %></p>
               <div class="d-flex justify-content-between align-items-center">
                 <div class="btn-group">
                   <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
                   <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
                 </div>
-                <small class="text-muted"><%p.getPrecio(); %></small>
+                <small class="text-muted"><%=p.getPrecio() %></small>
               </div>
             </div>
           </div>
