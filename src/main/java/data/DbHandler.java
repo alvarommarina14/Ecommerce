@@ -25,11 +25,11 @@ public class DbHandler {
 		}
 	}
 
-	private Connection getConnection() {
+	public Connection getConnection() {
 		try {
 			if (conn == null || conn.isClosed())
 				conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + db + options, user,
-						password);
+				password);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

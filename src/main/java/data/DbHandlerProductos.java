@@ -1,5 +1,10 @@
 package data;
 
+import java.awt.Image;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.Blob;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
+
+import javax.swing.ImageIcon;
 
 import Entities.Categoria;
 import Entities.Producto;
@@ -53,7 +60,7 @@ public class DbHandlerProductos {
 		}
 	}
 
-	public LinkedList<Producto> selectProducto(String order) { // Devuelve todos los productos
+	public LinkedList<Producto> selectProducto(String order) throws IOException { // Devuelve todos los productos
 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -63,7 +70,7 @@ public class DbHandlerProductos {
 			conn = this.getConnection();
 			LinkedList<Producto> productos = new LinkedList<Producto>();
 			stmt = conn.createStatement();
-			String query = "select pr.valor, pr.idProducto, p.descripcion as 'prod-desc', stock, p.idCategoria as 'idCategoria', cat.descripcion as 'cat-desc',\r\n"
+			String query = "select pr.valor, pr.idProducto, p.descripcion as 'prod-desc', p.foto as 'foto', stock, p.idCategoria as 'idCategoria', cat.descripcion as 'cat-desc',\r\n"
 					+ " prov.idProveedor as 'idProveedor', Nombre, cuil, tipoTelefono, nroTelefono from producto p\r\n"
 					+ "inner join proveedor prov on prov.idProveedor = p.idProveedor\r\n"
 					+ "inner join categoria cat on cat.idCategoria = p.idCategoria\r\n"
@@ -75,7 +82,7 @@ public class DbHandlerProductos {
 				Producto producto = new Producto();
 				Categoria categoria = new Categoria();
 				Proveedor proveedor = new Proveedor();
-
+				LinkedList<ImageIcon> fotos = new LinkedList<ImageIcon>();
 				categoria.setId(rs.getInt("idCategoria"));
 				categoria.setDescripcion(rs.getString("cat-desc"));
 
@@ -89,11 +96,16 @@ public class DbHandlerProductos {
 				producto.setDescripcion(rs.getString("prod-desc"));
 				producto.setStock(rs.getInt("stock"));
 				producto.setPrecio(rs.getDouble("valor"));
-
 				producto.setCategoria(categoria);
 				producto.setProveedor(proveedor);
-
+				
+				Blob clob = rs.getBlob("foto");
+				byte[] byteArr = clob.getBytes(1,(int)clob.length());
+	 
+				FileOutputStream fileOutputStream = new FileOutputStream("C:\\newImage.jpg");
+				fileOutputStream.write(byteArr);  
 				productos.add(producto);
+				fileOutputStream.close();
 			}
 			return productos;
 		} catch (SQLException e) {
@@ -122,7 +134,8 @@ public class DbHandlerProductos {
 		try {
 			conn = this.getConnection();
 			LinkedList<Producto> productos = new LinkedList<Producto>();
-			String query = "select precio.valor, max(fechaDesde), precio.idProducto, producto.descripcion as 'prod-desc', stock, producto.idCategoria as 'idCategoria', categoria.descripcion as 'cat-desc', proveedor.idProveedor as 'idProveedor', Nombre, cuil, tipoTelefono, nroTelefono\r\n"
+			String query = "select precio.valor, max(fechaDesde), precio.idProducto, producto.descripcion as 'prod-desc', stock, producto.idCategoria as 'idCategoria', "
+					+ "categoria.descripcion as 'cat-desc', proveedor.idProveedor as 'idProveedor', Nombre, cuil, tipoTelefono, nroTelefono\r\n"
 					+ "from precio inner join producto on producto.idProducto = precio.idProducto\r\n"
 					+ "inner join categoria on producto.idCategoria = categoria.idCategoria\r\n"
 					+ "inner join proveedor on producto.idProveedor = proveedor.idProveedor\r\n"
@@ -174,6 +187,61 @@ public class DbHandlerProductos {
 		}
 
 	}
+	
+	public LinkedList<Producto> selectProductoByDescripcion(String desc) { // Devuelve lista de productos que coinciden con una descripcion
+
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection conn;
+		try {
+			conn = this.getConnection();
+			LinkedList<Producto> productos = new LinkedList<Producto>();
+			String query = "select precio.valor, precio.idProducto, producto.descripcion as 'prod-desc', stock, producto.idCategoria as 'idCategoria', \r\n"
+					+ "categoria.descripcion as 'cat-desc'\r\n"
+					+ "from precio inner join producto on producto.idProducto = precio.idProducto\r\n"
+					+ "inner join categoria on producto.idCategoria = categoria.idCategoria\r\n"
+					+ "inner join (select p.idProducto, max(fechaDesde) as fecha from precio p group by p.idProducto) maxFechas on maxFechas.idProducto = precio.idProducto\r\n"
+					+ "where producto.idProducto IN (select distinct p.idProducto from producto p where\r\n"
+					+ "p.descripcion like ?) group by precio.idProducto";
+			stmt = conn.prepareStatement(query);
+			stmt.setString(1, "%"+desc+"%");
+			rs = stmt.executeQuery();
+
+			while (rs != null && rs.next()) {
+				Categoria categoria = new Categoria();
+				Producto prod = new Producto();
+
+				categoria.setId(rs.getInt("idCategoria"));
+				categoria.setDescripcion(rs.getString("cat-desc"));
+
+				prod.setId(rs.getInt("idProducto"));
+				prod.setDescripcion(rs.getString("prod-desc"));
+				prod.setStock(rs.getInt("stock"));
+				prod.setPrecio(rs.getDouble("precio.valor"));
+
+				prod.setCategoria(categoria);
+
+				productos.add(prod);
+			}
+			return productos;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				this.releaseConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
 
 	public void addProducto(Producto prod) {
 
@@ -331,7 +399,7 @@ public class DbHandlerProductos {
 		}
 	}
 
-	public void inflation(Double val) {
+	public void inflation(Double val) throws IOException {
 		LinkedList<Producto> prods = this.selectProducto("a");
 		for (Producto p : prods) {
 			this.addPrecio(p.getPrecio() * (val / 100 + 1), p.getId());

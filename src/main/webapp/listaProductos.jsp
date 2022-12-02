@@ -10,7 +10,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <link href="listaProductos.css" rel="stylesheet" type="text/css">
-
+<!-- <link href="../css/bootstrap.css" rel="stylesheet" type="text/css"> -->
 <title>Lista Productos</title>
 <%
 LinkedList<Producto> productos = (LinkedList<Producto>) request.getAttribute("productos");

@@ -1,6 +1,6 @@
 package Entities;
 
-
+import javax.swing.ImageIcon;
 
 public class Producto {
 	
@@ -11,7 +11,7 @@ public class Producto {
 	Categoria categoria = new Categoria();
 	Double precio;
 	
-	
+
 	public int getId() {
 		return id;
 	}
