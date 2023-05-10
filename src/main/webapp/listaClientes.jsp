@@ -26,7 +26,7 @@ if(cliente != null){
 	fecha = cliente.getFechaNac();
 	int i = 0;
     for(Localidad l : localidades) {
-        if(l.getId() == cliente.getLocalidad().getId()) {
+        if(l.getCodPostal() == cliente.getLocalidad().getCodPostal()) {
             Collections.swap(localidades, 0, i);
             break;
         }
@@ -64,7 +64,7 @@ if(cliente != null){
 					<td><%=c.getNroTelefono()%></td>
 					<td><%=c.getDireccion()%></td>
 					<td><%=c.getLocalidad().getNombre()%></td>
-					<td><%=c.getLocalidad().getProvincia().getNombre()%></td>
+					<td><%=c.getProvincia().getNombre()%></td>
 					<td><%=c.getFechaNac()%></td>
 					<td><%=c.getEmail()%></td>
 					<td><button type="submit" name="order" value="mod-<%=c.getNroDocumento()%>" class="astext" >Modificar</button></td>
@@ -104,7 +104,7 @@ if(cliente != null){
 					<td>Localidad</td>
 					<td><select name="loc">
 							<%for (Localidad l: localidades){ %>
-							<option value="<%=l.getId()%>"><%=l.getNombre()%></option>
+							<option value="<%=l.getCodPostal()%>"><%=l.getNombre()%></option>
 							<%}%>
 					</select></td>
 				</tr>

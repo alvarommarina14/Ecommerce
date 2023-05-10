@@ -4,17 +4,16 @@
 <%@page import="java.util.Collections"%>
 <%@page import="Entities.Proveedor"%>
 <%@page import="java.io.OutputStream" %>
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@page import="java.util.Base64" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-	<title>Supermercado</title>
-	<link rel="icon" type="image/x-icon" href="./images/favicon.ico">
-<!-- <link rel="stylesheet" href="../css/bootstrap.css"></link> -->
+<title>Supermercado</title>
+<link rel="icon" type="image/x-icon" href="./images/favicon.ico">
 <link rel="canonical" href="https://getbootstrap.com/docs/5.2/examples/album/">
 <link href="./css/bootstrap.min.css" rel="stylesheet">
 
@@ -69,56 +68,139 @@
         white-space: nowrap;
         -webkit-overflow-scrolling: touch;
       }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
     </style>
     <%
     LinkedList<Producto> productos = (LinkedList<Producto>) request.getAttribute("productos");
-    LinkedList<Categoria> categorias = (LinkedList<Categoria>) request.getAttribute("categorias"); 
+	Producto prod = (Producto) request.getAttribute("producto");
+	LinkedList<Producto> cart = new LinkedList<Producto>();
+    String descripcion = (String) request.getAttribute("descripcion");
+    Integer idPedido = (Integer) request.getAttribute("idPedido");
+    String pedido = (String) request.getAttribute("pedido");
+   	String idCat = (String) request.getAttribute("idCat");
+   	Integer dni = 0;
     %>
 </head>
 <body>
-
- <header>
-  <div class="collapse bg-dark" id="navbarHeader">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-8 col-md-7 py-4">
-          <h4 class="text-white">About</h4>
-          <p class="text-muted">Add some information about the album below, the author, or any other background context. Make it a few sentences long so folks can pick up some informative tidbits. Then, link them off to some social networking sites or contact information.</p>
-        </div>
-        <div class="col-sm-4 offset-md-1 py-4">
-          <h4 class="text-white">Contact</h4>
-          <ul class="list-unstyled">
-            <li><a href="#" class="text-white">Follow on Twitter</a></li>
-            <li><a href="#" class="text-white">Like on Facebook</a></li>
-            <li><a href="#" class="text-white">Email me</a></li>
+ <header style="background-color: #505050;">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" style="width: 50%;">
+  <div class="container-fluid">
+  		<form action="home" method="post">
+	  		<a class="nav-item" href="./index.html" style="background-color: inherit;border: 0;height: 100%;color: black;">Home</a>
+  		</form>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+	    	
+      	<ul class="navbar-nav">
+<!--       	<li class="nav-item"> -->
+<!--       	<form> -->
+<!--       	<a class="nav-item" href="./index.html" style="background-color: inherit;border: 0;height: 100%;color: black;">Home</a> -->
+<!--       	</form> -->
+<!--       	</li> -->
+      	<li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Categorias
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+            <form action="busquedaProducto" method="post">
+	        	<button type="submit" class="dropdown-item">Bebidas</button>
+	        	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+				<input type="hidden" name="catId" value="1" size="30">
+            </form>
+            </li>
+            <li>
+             <form action="busquedaProducto" method="post">
+            <button type="submit" class="dropdown-item">Comidas</button>
+            	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+				<input type="hidden" name="catId" value="2" size="30">
+		    </form>
+            </li>
+            <li>
+             <form action="busquedaProducto" method="post">
+            <button type="submit" class="dropdown-item">Cosmeticos</button>
+            	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+				<input type="hidden" name="catId" value="3" size="30">
+		    </form>
+            </li>
+            <li>
+             <form action="busquedaProducto" method="post">
+            <button type="submit" class="dropdown-item">Tecnologia</button>
+	            <input type="hidden" name="idpedid" value="0" size="30">
+		        <input type="hidden" name="dni" value="" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+				<input type="hidden" name="catId" value="4" size="30">
+			</form>
+            </li>
           </ul>
-        </div>
-      </div>
+        </li>
+        <li class="nav-item">
+         <form action="listaOfertas" method="post" style="height: 100%;">
+            <button class="nav-item" type="submit" style="background-color: inherit;border: 0;height: 100%;">Ofertas</button>
+	            <input type="hidden" name="idpedid" value="0" size="30">
+		        <input type="hidden" name="dni" value="12345678" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+		</form>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="#">Sucursales</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Ayuda</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Acerca de</a>
+        </li>
+      </ul>
     </div>
   </div>
-      <img class="logo" src="./images/logo.png">
-  <div class="navbar navbar-dark bg-dark shadow-sm">
-    <div class="container">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarHeader" aria-controls="navbarHeader" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <button class="login" type="button">
-        <span class="login-icon"></span> 
-        <svg class = "login-icon" xmlns="http://www.w3.org/2000/svg" width="2.5em" height="2.5em" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
-  			<path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-  			<path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-		</svg>
-      </button>
-      <button class="create-account" type="button">
-      <img class="create-account-icon" fill="currentColor" src="./images/create-account.svg"/>
-      </button>
-<!--       <small> -->
-<!--       Login -->
-<!--       </small> -->
+</nav>
+	  
+<nav class="navbar navbar-expand-lg bg-body-tertiary" style="flex-direction: row-reverse;width: 49%;display: inline-flex;">
+ 	<div class="container-fluid" style="text-align: right;width: auto;margin: 0;">
+    <a class="navbar-brand" href="./login">Login</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Carrito</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Mi cuenta</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Salir</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Dropdown link
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </li>
+      </ul>
     </div>
   </div>
+</nav>
 </header>
-
 <main>
 
   <section class="py-5 text-center container">
@@ -127,60 +209,76 @@
         <h1 class="fw-light">Supermarket</h1>
         <p class="lead text-muted">Productos de calidad a la mano</p>
         <p>
-        <input type="text" id="desc" name="descripcion" required minlength="4" maxlength="8" size="30">
-          <button type="submit" name="product-search" value="buscar" class="astext" >Buscar</button>
-        </p>
+        <form action="busquedaProducto" method="post">
+        	<input type="text" name="descripcion" class="descripcion-busqueda" size="30" value=<%=descripcion %>>
+        	<button type="submit" class="product-search" name="product-search">Buscar</button>
+        	<input type="hidden" name="idpedid" value=<%=idPedido %> size="30">
+        	<input type="hidden" name="pedido" value=<%=pedido %>></input>
+        </form>        
       </div>
     </div>
   </section>
-<%-- <h1><%productos.size(); %></h1> --%>
   <div class="album py-5 bg-light">
     <div class="container">
 
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
 
 		<%
-		for(Producto p: productos){
-		%>
-        <div class="col">
-        <%response.setContentType("image/gif");
-      	 	OutputStream o = response.getOutputStream(); 
-       		o.write(p.getByteArr()); 
- 			o.flush(); 
-       		o.close(); 
-        %> 
-          <div class="card shadow-sm">
-            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"/><text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text></svg>
-
-            <div class="card-body">
-              <p class="card-text"><%=p.getDescripcion() %></p>
-              <div class="d-flex justify-content-between align-items-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                  <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
-                </div>
-                <small class="text-muted"><%=p.getPrecio() %></small>
-              </div>
-            </div>
-          </div>
-        </div>
-       <%}%>
+		if(productos.size()>0){
+			for(Producto p: productos){
+			%>
+	        <div class="col">
+	
+	          <div class="card shadow-sm">
+	          <input type="hidden" name="idprod" value=<%=p.getId() %> size="30">
+	          <img src="http://localhost:8080/project_super_2502/buscaFotos?idProd=<%= p.getId() %>" width="300"></img>
+	
+					
+	            <div class="card-body">
+	              <div class="d-flex justify-content-between align-items-center">
+	                <div class="btn-group">
+	                <form action="busquedaProducto" method="post">
+	                	<label for="p-descripcion">Nombre:</label><br>
+	               		<input type="text" name="p-descripcion" class="card-text" readonly value="<%=p.getDescripcion()%>"><br>
+	               		<label for="p-stock">Stock:</label><br>
+	               		<input type="text" name="p-stock" class="card-text" readonly value=<%=p.getStock() %>><br>
+	               		<label for="p-id">Id:</label><br>
+	             		<input type="text" name="p-id" class="card-text" value=<%= p.getId() %>><br>
+	             		<label for="cantidad">Ingrese la cantidad:</label><br>
+	             		<input type="number" class="cantidad-prod" name="cantidad" min=1 max=<%=p.getStock() %> required><br>
+	             		<small class="text-muted" ><%="Precio: $"+p.getPrecio()%></small><br>
+	                  	<button type="submit" name="order" class="btn btn-sm btn-outline-secondary" value="add-to-cart" >Agregar al carrito</button>
+	                	<button type="submit" name="order" class="btn btn-sm btn-outline-secondary" value="remove-from-cart">Eliminar del carrito</button>
+	                	<input type="hidden" name="idpedid" value=<%=idPedido %> size="30">
+	        			<input type="hidden" name="pedido" value=<%=pedido %>></input>
+	        			<input type="hidden" name="descripcion" size="30" value=<%=descripcion %>>
+	        			<input type="hidden" name="precio" size="30" value=<%=p.getPrecio() %>>
+	        			<input type="hidden" name="catId" value=<%=idCat%> size="30">
+	                </form>
+	                </div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+	       <%}} else{%>  <h5 style="width: 100%;text-align: center;">No quedan mas productos de esta categoría</h5> <%} %>
        
 
      
       </div>
     </div>
+    <form action="finalizarCompra" method="post">
+     	<button type="submit" name="fin" class="end-purchase">Confirmar compra</button>
+     	<input type="hidden" name="pedido" value=<%=pedido %>></input>
+     	<input type="hidden" name="dni" value=<%=dni %> size="30">
+     	<input type="hidden" name="id-pedido" value=<%=idPedido %> size="30">
+    </form>
   </div>
-
 </main>
 
-<footer class="text-muted py-5">
+<footer class="text-muted footerAM">
   <div class="container">
-    <p class="float-end mb-1">
-      <a href="#">Back to top</a>
-    </p>
-    <p class="mb-1">Album example is &copy; Bootstrap, but please download and customize it for yourself!</p>
-    <p class="mb-0">New to Bootstrap? <a href="/">Visit the homepage</a> or read our <a href="../getting-started/introduction/">getting started guide</a>.</p>
+    <p class="mb-1">Supermercado, SA.</p>
+    <p class="mb-0">Desarrollado por Alvaro. 2022.</p>
   </div>
 </footer>
 

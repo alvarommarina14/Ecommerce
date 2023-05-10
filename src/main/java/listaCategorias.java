@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import Entities.Categoria;
 import Entities.Producto;
 import Entities.Proveedor;
-import data.DbHandler;
+import data.DbHandlerClientes;
 import data.DbHandlerCategorias;
 import data.DbHandlerProductos;
 import data.DbHandlerProveedores;

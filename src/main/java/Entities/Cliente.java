@@ -7,6 +7,7 @@ public class Cliente {
 
 	String nombreApellido, tipDocumento, nroDocumento, email, tipoTelefono, nroTelefono, direccion, fechaNac;
 	Localidad localidad = new Localidad();
+	Provincia provincia = new Provincia();
 	public String getNombreApellido() {
 		return nombreApellido;
 	}
@@ -60,6 +61,12 @@ public class Cliente {
 	}
 	public void setLocalidad(Localidad localidad) {
 		this.localidad = localidad;
+	}
+	public Provincia getProvincia() {
+		return provincia;
+	}
+	public void setProvincia(Provincia provincia) {
+		this.provincia = provincia;
 	}
 	
 	

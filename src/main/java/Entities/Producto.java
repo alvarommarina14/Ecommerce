@@ -9,14 +9,15 @@ public class Producto {
 	Proveedor proveedor = new Proveedor();
 	Categoria categoria = new Categoria();
 	Double precio;
-	byte[] byteArr;
+	byte[] imageBytes;
+
 	
 
-	public byte[] getByteArr() {
-		return byteArr;
+	public byte[] getImageBytes() {
+		return imageBytes;
 	}
-	public void setByteArr(byte[] byteArr) {
-		this.byteArr = byteArr;
+	public void setImageBytes(byte[] imageBytes) {
+		this.imageBytes = imageBytes;
 	}
 	public int getId() {
 		return id;

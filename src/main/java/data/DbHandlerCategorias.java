@@ -10,42 +10,12 @@ import java.util.LinkedList;
 
 import Entities.Categoria;
 
-public class DbHandlerCategorias {
-	private String driver = "com.mysql.cj.jdbc.Driver";
-	private String host = "localhost";
-	private String port = "3306";
-	private String user = "matias";
-	private String password = "1234";
-	private String db = "tpsuper";
-	private String options = "?useLegacyDatetimeCode=false&serverTimezone=UTC";
-	// private String options="";
-	private Connection conn = null;
+public class DbHandlerCategorias extends DbHandler{
 
 	public DbHandlerCategorias() {
 		try {
 			Class.forName(driver);
 		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
-	}
-
-	private Connection getConnection() {
-		try {
-			if (conn == null || conn.isClosed())
-				conn = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + db + options, user,
-						password);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return conn;
-	}
-
-	private void releaseConnection() {
-		try {
-			if (conn != null && !conn.isClosed()) {
-				conn.close();
-			}
-		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -178,7 +148,7 @@ public class DbHandlerCategorias {
 		Connection conn = null;
 		try{
 			conn = this.getConnection();
-			stmt = conn.prepareStatement("insert into Categoria (Descripcion) values (?)");/* please ver si esta bien este query*/
+			stmt = conn.prepareStatement("insert into Categoria (Descripcion) values (?)");
 			stmt.setString(1, desc);
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();

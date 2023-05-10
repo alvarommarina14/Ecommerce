@@ -2,15 +2,21 @@ package Entities;
 
 public class Localidad {
 	
-	int id;
+	int codPostal;
 	String nombre;
-	Provincia provincia = new Provincia();
+	int idProvincia;
 	
-	public int getId() {
-		return id;
+	public int getIdProvincia() {
+		return idProvincia;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setIdProvincia(int idProvincia) {
+		this.idProvincia = idProvincia;
+	}
+	public int getCodPostal() {
+		return codPostal;
+	}
+	public void setCodPostal(int codPostal) {
+		this.codPostal = codPostal;
 	}
 	public String getNombre() {
 		return nombre;
@@ -19,12 +25,6 @@ public class Localidad {
 		this.nombre = nombre;
 	}
 	
-	public Provincia getProvincia() {
-		return this.provincia;
-	}
-	
-	public void setProvincia(Provincia provincia) {
-		this.provincia = provincia;
-	}
+
 
 }
