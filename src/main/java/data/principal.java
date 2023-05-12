@@ -39,33 +39,10 @@ public class principal {
 	public static void main(String[] args) throws IOException {
 		// TODO Auto-generated method stub
 		DbHandlerClientes db = new DbHandlerClientes();
-//		Cliente cli = db.loginCliente("alvarito@gmail.com", "pass");
-//		System.out.println(cli.getLocalidad().getNombre());
-//		System.out.println(cli.getProvincia().getNombre());
-//		DbHandlerProvincias dbProvincias = new DbHandlerProvincias();
-//		LinkedList<Provincia> provincias = dbProvincias.selectProvincia();
-//		DbHandlerSucursales dbSucursales = new DbHandlerSucursales();
-//		LinkedList<Sucursal> sucursales = dbSucursales.selectSucursal();
-//		for(Sucursal s: sucursales) {
-//			System.out.println(s.getDireccion());
-//		}
-		
-//		String salt = BCrypt.gensalt();
-//		String password = BCrypt.hashpw("pw", salt);
-//		System.out.println(salt);
-//		System.out.println(password);
-//	
-//		
-//		Boolean right = BCrypt.checkpw("pass", password);
-//		
-//		System.out.println(right);
-//		String a = "1995-05-23";
-//		String[] fecha = a.split("-");
-//		System.out.println(fecha[0]);
-//		db.modificarCli(12345678, "Alvaro Marina", "Junin 2332", 2000, "alvarito@gmail.com", "1995-06-24");
-		db.updatePassword(12345678, "hola");
-//		System.out.println(db.getSalt(12345678));
-//		System.out.println(c.getNombreApellido());
+		db.updatePassword(12345678, "admin");
+		DbHandlerRetiroSucursal db1 = new DbHandlerRetiroSucursal();
+		db1.selectRetirosSucursalPendientes();
+		System.out.println(db1.selectRetirosSucursalPendientes());
 }
 }
 

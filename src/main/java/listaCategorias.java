@@ -46,9 +46,9 @@ public class listaCategorias extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		DbHandlerProductos dbProductos = new DbHandlerProductos();
+
 		DbHandlerCategorias dbCategorias = new DbHandlerCategorias();
-		DbHandlerProveedores dbProveedores = new DbHandlerProveedores();
+
 		String order = request.getParameter("order");
 		Categoria categoria = null;
 		if(order.equalsIgnoreCase("desc")) {
@@ -69,16 +69,6 @@ public class listaCategorias extends HttpServlet {
 			String desc = request.getParameter("desc");
 			
 			dbCategorias.modCat(id, desc);
-		}else if(order.equalsIgnoreCase("volver")) {
-			LinkedList<Producto> productos =  dbProductos.selectProducto("desc");
-			LinkedList<Categoria> categorias = dbCategorias.selectCategoria();
-			LinkedList<Proveedor> proveedores = dbProveedores.selectProveedor();
-			
-			request.setAttribute("productos", productos);
-			request.setAttribute("categorias", categorias);
-			request.setAttribute("proveedores", proveedores);
-
-			request.getRequestDispatcher("listaProductos.jsp").forward(request, response);
 		}
 		
 		request.setAttribute("categoria", categoria);

@@ -43,10 +43,6 @@ public class finalizarCompra extends HttpServlet {
 		// TODO Auto-generated method stub
 		HttpSession session = request.getSession();
 		Integer idPedido = (Integer) session.getAttribute("idPedido");
-//		String pedido = request.getParameter("pedido");
-//		Integer dni = (Integer) session.getAttribute("dni");
-		
-		System.out.println("id pedido "+idPedido);
 		DbHandlerLineaPedido db = new DbHandlerLineaPedido();
 		LinkedList<LineaCompra> listaLC = (LinkedList<LineaCompra>) session.getAttribute("listaLC");
 		String delete = request.getParameter("delete-prod");
@@ -58,12 +54,6 @@ public class finalizarCompra extends HttpServlet {
 				db.deleteLineaProducto(idPedido, idProducto);
 			}
 		}
-//		lc = db.selectProductos(idPedido);
-
-//		request.setAttribute("listaLC", lc);
-//		request.setAttribute("idPedido",idPedido);
-//		request.setAttribute("pedido", pedido);
-//		request.setAttribute("dni", dni);
 		request.getRequestDispatcher("finalizarCompra.jsp").forward(request, response);
 	}
 

@@ -81,7 +81,7 @@
     %>
 </head>
 <body style="background-color: white;">
- <header style="background-color: #505050;">
+  <header style="background-color: #505050;">
    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" style="width: 50%;">
   <div class="container-fluid">
@@ -173,13 +173,19 @@
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Carrito</a>
+        	<form action="finalizarCompra" method="post" style="height: 100%;">
+          		<button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Carrito</button>
+        	</form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Mi cuenta</a>
+        <form action="myAccount" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Mi cuenta</button>
+        </form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Salir</a>
+        <form action="logout" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Salir</button>
+        </form>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -7,11 +7,13 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import Entities.Cliente;
 import Entities.EnvioDomicilio;
 import Entities.Pedido;
+import Entities.Producto;
 
 public class DbHandlerEnvioDomicilio {
 	private String driver = "com.mysql.cj.jdbc.Driver";
@@ -90,15 +92,54 @@ public class DbHandlerEnvioDomicilio {
 			}
 		}
 	}
+	
+	public EnvioDomicilio selectEnvioDomicilio(Integer idPedido) { // Devuelve un envio domicilio por ID
 
-	public LinkedList<EnvioDomicilio> selectEnviosPendientes() { // Devuelve los envios a domicilio pendientes al dia de la fecha
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection conn;
+		EnvioDomicilio ed = new EnvioDomicilio();
+		try {
+			conn = this.getConnection();
+			String query = "select * from EnvioDomicilio ed where ed.idPedido = ?";
+			stmt = conn.prepareStatement(query);
+			stmt.setInt(1, idPedido);
+			rs = stmt.executeQuery();
+
+			if (rs != null && rs.next()) {
+
+				ed.setId(rs.getInt("idEnvioDomicilio"));
+				ed.setDescripcion(rs.getString("descripcion"));
+				ed.setFechaEntregaEstimada(rs.getString("fechaEstimadaEntrega"));
+				ed.setDireccionEnvio(rs.getString("domicilioEntrega"));
+			}
+			return ed;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				this.releaseConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+
+	public ArrayList<EnvioDomicilio> selectEnviosPendientes() { // Devuelve los envios a domicilio pendientes al dia de la fecha
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn;
 
 		try {
 			conn = this.getConnection();
-			LinkedList<EnvioDomicilio> envios = new LinkedList<EnvioDomicilio>();
+			ArrayList<EnvioDomicilio> envios = new ArrayList<EnvioDomicilio>();
 
 			stmt = conn.prepareStatement("SELECT ed.idPedido, ed.fechaEstimadaEntrega, ed.fechaRealEntrega, "
 					+ "p.fechaCompra, p.nroDoc, p.costoTotal, cli.nombreApellido, cli.direccion "
@@ -174,5 +215,25 @@ public class DbHandlerEnvioDomicilio {
 		}
 	}
 	}
-
+	
+	public void deleteEnvio(Integer idPedido) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = this.getConnection();
+			stmt = conn.prepareStatement("delete from enviodomicilio where idProducto = ?");
+			stmt.setInt(1, idPedido);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				this.releaseConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }

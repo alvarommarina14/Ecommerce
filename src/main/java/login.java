@@ -6,6 +6,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import Entities.Cliente;
 
 /**
  * Servlet implementation class login
@@ -35,7 +38,13 @@ public class login extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		request.getRequestDispatcher("login.jsp").forward(request, response);
+		HttpSession session = request.getSession();
+		Cliente cliente = (Cliente) session.getAttribute("cliente");
+		if(cliente == null) {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		} else {
+		request.getRequestDispatcher("index.html").forward(request, response);
+		}
 	}
 
 }

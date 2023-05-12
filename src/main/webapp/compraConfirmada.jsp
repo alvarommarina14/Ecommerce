@@ -80,36 +80,77 @@
 </head>
 <body>
 
- <header style="
-    background-color: #505050;
-">
-  <nav class="navbar navbar-expand-lg bg-body-tertiary" style="
-    width: 50%;
-">
+  <header style="background-color: #505050;">
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
+  <nav class="navbar navbar-expand-lg bg-body-tertiary" style="width: 50%;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Home</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    	
-      <ul class="navbar-nav">
-      <li class="nav-item dropdown">
+  		<form action="home" method="post">
+	  		<a class="nav-item" href="./index.html" style="background-color: inherit;border: 0;height: 100%;color: black;">Home</a>
+  		</form>
+	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+	      <span class="navbar-toggler-icon"></span>
+	    </button>
+	    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+	    	
+      	<ul class="navbar-nav">
+<!--       	<li class="nav-item"> -->
+<!--       	<form> -->
+<!--       	<a class="nav-item" href="./index.html" style="background-color: inherit;border: 0;height: 100%;color: black;">Home</a> -->
+<!--       	</form> -->
+<!--       	</li> -->
+      	<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Categorias
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Bebidas</a></li>
-            <li><a class="dropdown-item" href="#">Comidas</a></li>
-            <li><a class="dropdown-item" href="#">Cosmeticos</a></li>
-            <li><a class="dropdown-item" href="#">Tecnologia</a></li>
+            <li>
+            <form action="busquedaProducto" method="post">
+	        	<button type="submit" class="dropdown-item">Bebidas</button>
+	        	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+				<input type="hidden" name="catId" value="1" size="30">
+            </form>
+            </li>
+            <li>
+             <form action="busquedaProducto" method="post">
+            <button type="submit" class="dropdown-item">Comidas</button>
+            	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+				<input type="hidden" name="catId" value="2" size="30">
+		    </form>
+            </li>
+            <li>
+             <form action="busquedaProducto" method="post">
+            <button type="submit" class="dropdown-item">Cosmeticos</button>
+            	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+				<input type="hidden" name="catId" value="3" size="30">
+		    </form>
+            </li>
+            <li>
+             <form action="busquedaProducto" method="post">
+            <button type="submit" class="dropdown-item">Tecnologia</button>
+	            <input type="hidden" name="idpedid" value="0" size="30">
+		        <input type="hidden" name="dni" value="" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+				<input type="hidden" name="catId" value="4" size="30">
+			</form>
+            </li>
           </ul>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Ofertas</a>
+         <form action="listaOfertas" method="post" style="height: 100%;">
+            <button class="nav-item" type="submit" style="background-color: inherit;border: 0;height: 100%;">Ofertas</button>
+	            <input type="hidden" name="idpedid" value="0" size="30">
+		        <input type="hidden" name="dni" value="12345678" size="30">
+				<input type="hidden" name="lineasCompra" value="0" size="30">
+		</form>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Sucursales</a>
+          <a class="nav-link" aria-current="page" href="#">Sucursales</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Ayuda</a>
@@ -124,20 +165,26 @@
 	  
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="flex-direction: row-reverse;width: 49%;display: inline-flex;">
  	<div class="container-fluid" style="text-align: right;width: auto;margin: 0;">
-   <a class="navbar-brand" href="#" style="margin-left: 16px;">Home</a>
+    <a class="navbar-brand" href="./login">Login</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Carrito</a>
+        	<form action="finalizarCompra" method="post" style="height: 100%;">
+          		<button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Carrito</button>
+        	</form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Mi cuenta</a>
+        <form action="myAccount" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Mi cuenta</button>
+        </form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Salir</a>
+        <form action="logout" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Salir</button>
+        </form>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

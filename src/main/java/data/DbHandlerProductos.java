@@ -364,10 +364,10 @@ public class DbHandlerProductos extends DbHandler{
 		try {
 			conn = this.getConnection();
 			stmt = conn.prepareStatement("insert into precio(valor, idProducto)\r\n" + "\r\n"
-					+ "select IF(pr.valor*(30/100 + 1) < ? ,pr.valor*(30/100 + 1), ?), pr.idProducto from producto p\r\n"
+					+ "select TRUNCATE(IF(pr.valor*(30/100 + 1) < ? ,pr.valor*(30/100 + 1), ?),2), pr.idProducto from producto p\r\n"
 					+ "inner join proveedor prov on prov.idProveedor = p.idProveedor\r\n"
 					+ "inner join categoria cat on cat.idCategoria = p.idCategoria\r\n"
-					+ "inner join (select max(fechaDesde) as fec, idProducto from precio where YEAR(fechaDesde) = (YEAR(current_date) - 1) and idProducto = ? group by precio.idProducto) maxprec2 on p.idProducto = maxprec2.idProducto \r\n"
+					+ "inner join (select max(fechaDesde) as fec, idProducto from precio where YEAR(fechaDesde) = (YEAR(current_date)) and idProducto = ? group by precio.idProducto) maxprec2 on p.idProducto = maxprec2.idProducto \r\n"
 					+ "inner join precio pr on pr.idProducto = p.idProducto and\r\n"
 					+ "pr.fechaDesde = maxprec2.fec;\r\n" + "", Statement.RETURN_GENERATED_KEYS);
 			stmt.setInt(3, idprod);

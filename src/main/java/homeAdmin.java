@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -40,7 +41,7 @@ public class homeAdmin extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		DbHandlerEnvioDomicilio db = new DbHandlerEnvioDomicilio();
-		LinkedList<EnvioDomicilio> lista = db.selectEnviosPendientes();
+		ArrayList<EnvioDomicilio> lista = db.selectEnviosPendientes();
 		
 		request.setAttribute("lista", lista);
 		request.getRequestDispatcher("homeAdmin.jsp").forward(request, response);

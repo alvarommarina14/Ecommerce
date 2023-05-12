@@ -1,6 +1,7 @@
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -11,8 +12,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import Entities.Cliente;
+import Entities.EnvioDomicilio;
 import Entities.Producto;
 import data.DbHandlerClientes;
+import data.DbHandlerEnvioDomicilio;
 import data.DbHandlerProductos;
 
 /**
@@ -42,7 +45,7 @@ public class home extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-//		int loginAttempts = Integer.parseInt(request.getParameter("login-attempts"));
+
 		DbHandlerClientes db = new DbHandlerClientes();
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
@@ -59,14 +62,20 @@ public class home extends HttpServlet {
 		session.setAttribute("cliente", cli);	
 		request.setAttribute("password", password);
 		request.getRequestDispatcher("metodoPago.jsp").forward(request, response);
-		} else if(redirectMyAcc) {
-//			redirectMyAcc = false;
+		} else if(redirectMyAcc != null) {
+			redirectMyAcc = false;
 			session.setAttribute("cliente", cli);
 			request.getRequestDispatcher("myAccount.jsp").forward(request, response);
-		} else {
+		} else if(cli.getUser_type().toString().equals("USER")){ // verifies if the user is an admin
 			session.setAttribute("cliente", cli);	
-			request.setAttribute("password", password);
-			request.getRequestDispatcher("home.jsp").forward(request, response);
+			request.getRequestDispatcher("index.html").forward(request, response);
+		} else {
+			DbHandlerEnvioDomicilio dbED = new DbHandlerEnvioDomicilio();
+			ArrayList<EnvioDomicilio> lista = dbED.selectEnviosPendientes();
+			
+			request.setAttribute("lista", lista);
+			session.setAttribute("cliente", cli);	
+			request.getRequestDispatcher("homeAdmin.jsp").forward(request, response);
 		}
 	}
 

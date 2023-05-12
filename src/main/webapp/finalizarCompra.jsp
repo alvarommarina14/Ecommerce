@@ -160,17 +160,24 @@ window.addEventListener("load", function(){
 </head>
 <body>
 
-<header style="background-color: #505050;">
+ <header style="background-color: #505050;">
    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js"></script>
   <nav class="navbar navbar-expand-lg bg-body-tertiary" style="width: 50%;">
   <div class="container-fluid">
-	    <a class="navbar-brand" href="/project_super_2502/home.jsp">Home</a>
+  		<form action="home" method="post">
+	  		<a class="nav-item" href="./index.html" style="background-color: inherit;border: 0;height: 100%;color: black;">Home</a>
+  		</form>
 	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
 	      <span class="navbar-toggler-icon"></span>
 	    </button>
 	    <div class="collapse navbar-collapse" id="navbarNavDropdown">
 	    	
       	<ul class="navbar-nav">
+<!--       	<li class="nav-item"> -->
+<!--       	<form> -->
+<!--       	<a class="nav-item" href="./index.html" style="background-color: inherit;border: 0;height: 100%;color: black;">Home</a> -->
+<!--       	</form> -->
+<!--       	</li> -->
       	<li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Categorias
@@ -179,41 +186,37 @@ window.addEventListener("load", function(){
             <li>
             <form action="busquedaProducto" method="post">
 	        	<button type="submit" class="dropdown-item">Bebidas</button>
-	        	<input type="hidden" name="idpedid" value=<%=idPedido %> size="30">
-	        	<input type="hidden" name="dni" value=<%=dni %> size="30">
+	        	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
 				<input type="hidden" name="lineasCompra" value="0" size="30">
 				<input type="hidden" name="catId" value="1" size="30">
-<%-- 				<input type="hidden" name="pedido" value=<%=pedido %>></input> --%>
             </form>
             </li>
             <li>
              <form action="busquedaProducto" method="post">
             <button type="submit" class="dropdown-item">Comidas</button>
-            	<input type="hidden" name="idpedid" value=<%=idPedido %> size="30">
-	        	<input type="hidden" name="dni" value=<%=dni %> size="30">
+            	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
 				<input type="hidden" name="lineasCompra" value="0" size="30">
 				<input type="hidden" name="catId" value="2" size="30">
-<%-- 				<input type="hidden" name="pedido" value=<%=pedido %>></input> --%>
 		    </form>
             </li>
             <li>
              <form action="busquedaProducto" method="post">
             <button type="submit" class="dropdown-item">Cosmeticos</button>
-            	<input type="hidden" name="idpedid" value=<%=idPedido %> size="30">
-	        	<input type="hidden" name="dni" value=<%=dni %> size="30">
+            	<input type="hidden" name="idpedid" value="0" size="30">
+	        	<input type="hidden" name="dni" value="" size="30">
 				<input type="hidden" name="lineasCompra" value="0" size="30">
 				<input type="hidden" name="catId" value="3" size="30">
-<%-- 				<input type="hidden" name="pedido" value=<%=pedido %>></input> --%>
 		    </form>
             </li>
             <li>
              <form action="busquedaProducto" method="post">
             <button type="submit" class="dropdown-item">Tecnologia</button>
-	            <input type="hidden" name="idpedid" value=<%=idPedido %> size="30">
-		        <input type="hidden" name="dni" value=<%=dni %> size="30">
+	            <input type="hidden" name="idpedid" value="0" size="30">
+		        <input type="hidden" name="dni" value="" size="30">
 				<input type="hidden" name="lineasCompra" value="0" size="30">
 				<input type="hidden" name="catId" value="4" size="30">
-<%-- 				<input type="hidden" name="pedido" value=<%=pedido %>></input> --%>
 			</form>
             </li>
           </ul>
@@ -242,20 +245,26 @@ window.addEventListener("load", function(){
 	  
 <nav class="navbar navbar-expand-lg bg-body-tertiary" style="flex-direction: row-reverse;width: 49%;display: inline-flex;">
  	<div class="container-fluid" style="text-align: right;width: auto;margin: 0;">
-    <a class="navbar-brand" href="#">Navbar</a>
+    <a class="navbar-brand" href="./login">Login</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Carrito</a>
+        	<form action="finalizarCompra" method="post" style="height: 100%;">
+          		<button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Carrito</button>
+        	</form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Mi cuenta</a>
+        <form action="myAccount" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Mi cuenta</button>
+        </form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Salir</a>
+        <form action="logout" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Salir</button>
+        </form>
         </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -281,17 +290,9 @@ window.addEventListener("load", function(){
         <h1 class="fw-light">Supermarket</h1>
         <p class="lead text-muted">Productos de calidad a la mano</p>
         <p>
-<!--         <form action="busquedaProducto" method="post"> -->
-<%--         	<input type="text" name="descripcion" class="descripcion-busqueda" size="30" value=<%=descripcion %>> --%>
-<!--         	<button type="submit" class="product-search" name="product-search">Buscar</button> -->
-<%--         	<input type="text" name="idpedid" value=<%=idPedido %> size="30"> --%>
-<%--         	<input type="text" name="pedido" value=<%=pedido %>></input> --%>
-<%--     		<button type="submit" name="idPedido" value=<%= idPedido %>>elPedido</button> --%>
-<!--         </form>         -->
       </div>
     </div>
   </section>
-<%-- <h1><%productos.size(); %></h1> --%>
   <div class="album py-5 bg-light" id="tablaProds">
     <div class="container">
 <div class="child1" style="text-align: center;">
@@ -333,14 +334,16 @@ window.addEventListener("load", function(){
 					<p class="lead text-muted" id="precio-total" style="font-size: 1rem;margin-top: 10px;font-weight: 500;">Precio total: $181</p>
 							
 				<p class="lead text-muted" id="warningMessage" style="color: red;text-align: center; font-size:1rem; display:none;">Para realizar la compra debe tener por lo menos un producto</p>
-				<% } %>
+				<% } else {%> <h5> No ha añadido productos al carrito </h5>
+							  <button class="end-purchase" name="delete-item" value="delete"> Home </button>
+							  <%} %>
 				</form>
 
 		</div>
 
       </div>
     </div>
-
+				<%if(lc != null){ %>
 				<div style="text-align: center;">
 				    <form action="metodoPago" method="post" style="display: inline-block;">
 				     	<div class="checkbox-container">
@@ -372,7 +375,7 @@ window.addEventListener("load", function(){
 						<button type="submit" name="fin" class="end-purchase" value="end" style="display: inline-block;">Cancelar compra</button>
 				    </form>
 				</div>
-
+				<%} %>
 </main>
 
 <footer class="text-muted footerAM">

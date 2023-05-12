@@ -22,7 +22,6 @@ public class DbHandlerProvincias {
 	private String password = "admin";
 	private String db = "tpsuper";
 	private String options = "?useLegacyDatetimeCode=false&serverTimezone=UTC";
-	// private String options="";
 	private Connection conn = null;
 
 	public DbHandlerProvincias() {

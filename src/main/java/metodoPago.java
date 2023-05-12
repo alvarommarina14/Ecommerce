@@ -50,7 +50,6 @@ public class metodoPago extends HttpServlet {
 		LinkedList<Provincia> provincias = dbProvincias.selectProvincia();
 		DbHandlerSucursales dbSucursales = new DbHandlerSucursales();
 		LinkedList<Sucursal> sucursales = dbSucursales.selectSucursal();
-//		DbHandlerClientes dbCliente = new DbHandlerClientes();
 		for(Sucursal s: sucursales) {
 			System.out.println(s.getDireccion());
 		}
@@ -58,9 +57,7 @@ public class metodoPago extends HttpServlet {
 		session.setAttribute("sucursales", sucursales);
 		
 		String ch1 = request.getParameter("checkbox-delivery");
-//		String ch2 = request.getParameter("checkbox-branch");
 		String ch3 = request.getParameter("checkbox-cash");
-//		String ch4 = request.getParameter("checkbox-card");
 		if(ch1 == null) {
 			session.setAttribute("withdraw", "branch");
 		} else {
@@ -72,7 +69,6 @@ public class metodoPago extends HttpServlet {
 			session.setAttribute("payment", "cash");
 		}
 		Cliente cliente = (Cliente) session.getAttribute("cliente");
-//		Cliente cliente = dbCliente.selectClientByIdPedido(idPedido);
 		String option = request.getParameter("fin"); // button that either cancels the purchase or proceeds to payment
 		System.out.println(option);
 		if(cliente == null) {

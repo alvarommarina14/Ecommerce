@@ -22,7 +22,6 @@ public class DbHandlerLocalidades {
 	private String password = "admin";
 	private String db = "tpsuper";
 	private String options = "?useLegacyDatetimeCode=false&serverTimezone=UTC";
-	// private String options="";
 	private Connection conn = null;
 
 	public DbHandlerLocalidades() {
@@ -132,5 +131,42 @@ public class DbHandlerLocalidades {
 			}
 		}
 
+	}
+	
+	public LinkedList<Localidad> selectLocalidades() { // Devuelve todos las localidades --> eliminar uno de los dos metodos
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection conn;
+
+		try {
+			conn = this.getConnection();
+			LinkedList<Localidad> localidades = new LinkedList<Localidad>();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("select * from localidad");
+
+			while (rs != null && rs.next()) {
+				Localidad l = new Localidad();
+
+				l.setCodPostal(rs.getInt("codpostal"));
+				l.setNombre(rs.getString("nombre"));
+
+				localidades.add(l);
+			}
+			return localidades;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				this.releaseConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 	}

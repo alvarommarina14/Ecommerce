@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import Entities.Cliente;
 import Entities.Localidad;
 import data.DbHandlerClientes;
+import data.DbHandlerLocalidades;
 
 /**
  * Servlet implementation class aa
@@ -45,11 +46,12 @@ public class listaClientes extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		DbHandlerClientes db = new DbHandlerClientes();
+		DbHandlerLocalidades dbLocalidades = new DbHandlerLocalidades();
 		String order = request.getParameter("order");
 		Cliente cliente = null;
-		if(order == null) {}
+		if(order == null) {
 			
-		else if(order.equalsIgnoreCase("add")) {
+		} else if(order.equalsIgnoreCase("add")) {
 			String dni = request.getParameter("dni");
 			String nombre = request.getParameter("nombre");
 			String direccion = request.getParameter("direccion");
@@ -57,7 +59,14 @@ public class listaClientes extends HttpServlet {
 			String tipodni = request.getParameter("tipodni");
 			String codpostal = request.getParameter("loc");
 			String fecha = request.getParameter("fechanac");
-			
+			String telefono = request.getParameter("telefono");
+			String tipotel = request.getParameter("tipotel");
+			String pw = request.getParameter("pw");
+			Localidad l = new Localidad();
+			l.setCodPostal(Integer.parseInt(codpostal));
+			Cliente cli = new Cliente(nombre, tipodni, dni, email, tipotel, telefono, direccion, fecha, l);
+			db.addUser(cli, pw);
+
 			
 		}else if(order.split("-")[0].equalsIgnoreCase("del")) {
 			String dni = order.split("-")[1];
@@ -68,28 +77,26 @@ public class listaClientes extends HttpServlet {
 			cliente = db.buscaCli(dni);
 			
 		}else if(order.equalsIgnoreCase("modify")){
-			String dni = request.getParameter("dni");
+			Integer dni = Integer.parseInt(request.getParameter("dni"));
 			String nombre = request.getParameter("nombre");
 			String direccion = request.getParameter("direccion");
 			String email = request.getParameter("email");
 			String tipodni = request.getParameter("tipodni");
-			String codpostal = request.getParameter("loc");
+			Integer codpostal = Integer.parseInt(request.getParameter("loc"));
 			String fecha = request.getParameter("fechanac");
-			System.out.println("entre al modify");
-			System.out.println("estos son los parametros: "+dni+" "+nombre+" "+tipodni);
-//			db.updateClientUser(dni, tipodni, nombre, direccion, codpostal, email, fecha);
-			System.out.println("sali del modify");
-			
+			String pw = request.getParameter("pw");
+			db.updateClientUser(dni, nombre, direccion, codpostal, email, fecha);
+			db.updatePassword(dni, pw);
 		}
 		
 
 		LinkedList<Cliente> clientes = db.selectCliente();
-		LinkedList<Localidad> localidades = db.selectLocalidades();
+		LinkedList<Localidad> localidades = dbLocalidades.selectLocalidades();
 		
 		request.setAttribute("listCli", clientes);
 		request.setAttribute("localidades", localidades);
 		request.setAttribute("cliente", cliente);
-		request.getRequestDispatcher("ABMC_Clientes.jsp").forward(request, response);
+		request.getRequestDispatcher("listaClientes.jsp").forward(request, response);
 		
 	}
 

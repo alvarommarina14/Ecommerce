@@ -148,7 +148,7 @@ public class DbHandlerCategorias extends DbHandler{
 		Connection conn = null;
 		try{
 			conn = this.getConnection();
-			stmt = conn.prepareStatement("insert into Categoria (Descripcion) values (?)");
+			stmt = conn.prepareStatement("insert into Categoria (Descripcion) values (?)", Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, desc);
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();

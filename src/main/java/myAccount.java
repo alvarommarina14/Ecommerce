@@ -47,10 +47,6 @@ public class myAccount extends HttpServlet {
 		} else {
 			request.getRequestDispatcher("myAccount.jsp").forward(request, response);
 		}
-//		DbHandlerClientes db = new DbHandlerClientes();
-//		Cliente c = db.loginCliente("alvarito@gmail.com", "hola");
-//		System.out.println(c.getNombreApellido());
-		
 	}
 
 }

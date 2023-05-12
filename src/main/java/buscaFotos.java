@@ -44,15 +44,5 @@ public class buscaFotos extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		DbHandlerProductos dbProductos = new DbHandlerProductos();
-		Integer idProd = Integer.parseInt(request.getParameter("idProd"));
-		System.out.println(idProd);
-//		Producto p = dbProductos.selectProducto(3);
-//		response.setContentType("image/jpeg");
-//		response.setContentLength(p.getImageBytes().length);
-//		response.getOutputStream().write(p.getImageBytes());
-//		response.getOutputStream().flush();
-//		request.getRequestDispatcher("buscaFotos.jsp").forward(request, response);
-//	}
 
 }}

@@ -50,22 +50,20 @@ public class DbHandlerProveedores {
 		}
 	}
 
-	public void nuevoProv(String nombre, String cuil, String nroTelefono, String tipoTelefono) {
+	public void nuevoProv(String nombre, String cuil, String nroTelefono, String tipoTelefono, String email) {
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn = null;
 		try {
 			conn = this.getConnection();
 			stmt = conn.prepareStatement(
-					"insert into Proveedor (nombre, cuil, nroTelefono, tipoTelefono) values (?,?,?,?)");/*
-																										 * please ver si
-																										 * esta bien
-																										 * este query
-																										 */
+					"insert into Proveedor (nombre, cuil, nroTelefono, tipoTelefono, email) values (?,?,?,?,?)",
+					Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, nombre);
 			stmt.setString(2, cuil);
 			stmt.setString(3, nroTelefono);
 			stmt.setString(4, tipoTelefono);
+			stmt.setString(5, email);
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
 		} catch (SQLException e) {
@@ -83,18 +81,19 @@ public class DbHandlerProveedores {
 		}
 	}
 
-	public void modProv(int id, String nombre, String cuil, String nroTelefono, String tipoTelefono) {
+	public void modProv(int id, String nombre, String cuil, String nroTelefono, String tipoTelefono, String email) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
 			conn = this.getConnection();
 			stmt = conn.prepareStatement(
-					"update proveedor set nombre = ?, cuil = ?, nroTelefono = ?, tipoTelefono = ? where idProveedor = ?");
+					"update proveedor set nombre = ?, cuil = ?, nroTelefono = ?, tipoTelefono = ?, email = ? where idProveedor = ?");
 			stmt.setString(1, nombre);
 			stmt.setString(2, cuil);
 			stmt.setString(3, nroTelefono);
 			stmt.setString(4, tipoTelefono);
-			stmt.setInt(5, id);
+			stmt.setString(5, email);
+			stmt.setInt(6, id);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

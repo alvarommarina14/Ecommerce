@@ -8,7 +8,10 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
 
+import Entities.Cliente;
+import Entities.Pedido;
 import Entities.RetiroSucursal;
+import Entities.Sucursal;
 
 public class DbHandlerRetiroSucursal extends DbHandler {
 
@@ -21,7 +24,7 @@ public class DbHandlerRetiroSucursal extends DbHandler {
 	}
 
 
-	public LinkedList<RetiroSucursal> selectRetiroSucursal() { // Devuelve todos las RetiroSucursals
+	public LinkedList<RetiroSucursal> selectRetiroSucursal() { // Devuelve todos los retiros por sucursal
 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -59,8 +62,7 @@ public class DbHandlerRetiroSucursal extends DbHandler {
 		}
 	}
 
-	public RetiroSucursal selectRetiroSucursal(int id) { // Devuelve todos las RetiroSucursals, filtrado por
-		// descripcion
+	public RetiroSucursal selectRetiroSucursal(int id) { // Devuelve un retiro por sucursal buscado por id
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn;
@@ -100,8 +102,68 @@ public class DbHandlerRetiroSucursal extends DbHandler {
 		return null;
 
 	}
+	
+	public LinkedList<RetiroSucursal> selectRetirosSucursalPendientes() { // Devuelve todos los retiros sucursales pendientes
 
-	public void deleteCat(int id) {
+		Statement stmt = null;
+		ResultSet rs = null;
+		Connection conn;
+
+		try {
+			conn = this.getConnection();
+			LinkedList<RetiroSucursal> RetiroSucursal = new LinkedList<RetiroSucursal>();
+			stmt = conn.createStatement();
+			rs = stmt.executeQuery("SELECT rs.idPedido, rs.fechaHoraRetiroEstimada, rs.idSucursal, s.direccion, p.fechaCompra, p.nroDoc, p.costoTotal, cli.nombreApellido, cli.direccion\r\n"
+					+ "FROM retirosucursal rs\r\n"
+					+ "inner join pedido p on p.idPedido = rs.idPedido \r\n"
+					+ "inner join cliente cli on cli.nroDocumento = p.nroDoc\r\n"
+					+ "inner join sucursal s on s.id = rs.idSucursal\r\n"
+					+ "where fechaHoraRetiro is null;");
+
+			while (rs != null && rs.next()) {
+				RetiroSucursal c = new RetiroSucursal();
+				Cliente cli = new Cliente();
+				Pedido ped = new Pedido();
+				Sucursal s = new Sucursal();
+				
+				s.setDireccion(rs.getString("direccion"));
+				
+				
+				ped.setId(rs.getInt("idpedido"));
+				ped.setFecha(rs.getString("fechaCompra"));
+				
+				cli.setNroDocumento(rs.getString("nroDoc"));
+				cli.setDireccion(rs.getString("direccion"));
+				cli.setNombreApellido(rs.getString("nombreApellido"));
+				
+				c.setId(rs.getInt("idSucursal"));
+				c.setFechaRetiroEstimada(rs.getString("fechaHoraRetiroEstimada"));
+				c.setCosto(rs.getDouble("costoTotal"));
+				c.setCliente(cli);
+				c.setPedido(ped);
+				c.setSucursal(s);
+
+				RetiroSucursal.add(c);
+			}
+			return RetiroSucursal;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				this.releaseConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void deleteRetiroSucursal(int id) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
@@ -122,14 +184,15 @@ public class DbHandlerRetiroSucursal extends DbHandler {
 		}
 	}
 
-	public void modCat(int id, String desc) {
+	public void updateRetiroSucursal(Integer idPedido, Integer idSucursal, String fecha) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		try {
 			conn = this.getConnection();
-			stmt = conn.prepareStatement("update RetiroSucursal set descripcion = ? where idRetiroSucursal = ?");
-			stmt.setString(1, desc);
-			stmt.setInt(2, id);
+			stmt = conn.prepareStatement("update RetiroSucursal set idSucursal = ?, fechaHoraRetiro = ? where idPedido = ?");
+			stmt.setInt(1, idSucursal);
+			stmt.setString(2, fecha);
+			stmt.setInt(3, idPedido);
 			stmt.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -143,15 +206,18 @@ public class DbHandlerRetiroSucursal extends DbHandler {
 			}
 		}
 	}
-	public void addBranchWithdrawal(Integer idPedido, Integer idSucursal) {
+	public void addBranchWithdrawal(Integer idPedido, Integer idSucursal) { 
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn = null;
+		long millis=System.currentTimeMillis()+604800000;  
+		java.sql.Date fechaEstimada = new java.sql.Date(millis);  
 		try{
 			conn = this.getConnection();
-			stmt = conn.prepareStatement("insert into retirosucursal (idPedido, idSucursal) values (?,?)");/* please ver si esta bien este query*/
+			stmt = conn.prepareStatement("insert into retirosucursal (idPedido, idSucursal, fechaHoraRetiroEstimada) values (?,?,?)");
 			stmt.setInt(1, idPedido);
 			stmt.setInt(2, idSucursal);
+			stmt.setDate(3, fechaEstimada);
 			stmt.executeUpdate();
 		} catch (SQLException e){
 			e.printStackTrace();

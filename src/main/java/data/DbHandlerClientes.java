@@ -18,63 +18,31 @@ public class DbHandlerClientes extends DbHandler{
 		}
 	}
 
-	public LinkedList<Localidad> selectLocalidades() { // Devuelve todos las categorias
-		Statement stmt = null;
-		ResultSet rs = null;
-		Connection conn;
-
-		try {
-			conn = this.getConnection();
-			LinkedList<Localidad> localidades = new LinkedList<Localidad>();
-			stmt = conn.createStatement();
-			rs = stmt.executeQuery("select * from localidad");
-
-			while (rs != null && rs.next()) {
-				Localidad l = new Localidad();
-
-				l.setCodPostal(rs.getInt("codpostal"));
-				l.setNombre(rs.getString("nombre"));
-
-				localidades.add(l);
-			}
-			return localidades;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-				this.releaseConnection();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	
-	
-
-	public void nuevoCli(Cliente c) {
+	public void addUser(Cliente c, String pw) { //creates new user in the database
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
+		String salt = BCrypt.gensalt();
+		String hash = BCrypt.hashpw(pw, salt);
 		try {
 			conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/tpsuper?user=root&password=admin");
-			stmt = conn.prepareStatement("insert into cliente values(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS); // chequear
-																													// que
-																													// sean
-																													// 5
-																													// ''?''
-			stmt.setString(1, c.getDireccion());
-			stmt.setString(2, c.getNroDocumento());
-			stmt.setString(3, c.getFechaNac().toString());
-			stmt.setString(4, c.getNombreApellido());
+			stmt = conn.prepareStatement("insert into cliente (nroDocumento, tipoDocumento, nombreApellido, email, fechaNacimiento, telefono, direccion, codPostal, password, salt) values(?,?,?,?,?,?,?,?,?,?)"
+					, Statement.RETURN_GENERATED_KEYS);
+			if(!this.verifyCreated(Integer.parseInt(c.getNroDocumento()), c.getEmail())) {
+			stmt.setInt(1, Integer.parseInt(c.getNroDocumento()));
+			stmt.setString(2, c.getTipDocumento());
+			stmt.setString(3, c.getNombreApellido());
+			stmt.setString(4, c.getEmail());
+			stmt.setString(5, c.getFechaNac().toString());
+			stmt.setString(6, c.getNroTelefono());
+			stmt.setString(7, c.getDireccion());
+			stmt.setInt(8, c.getLocalidad().getCodPostal());
+			stmt.setString(9, hash);
+			stmt.setString(10, salt);
+			
 			stmt.executeUpdate();
 			rs = stmt.getGeneratedKeys();
+			}
 
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -163,7 +131,6 @@ public class DbHandlerClientes extends DbHandler{
 				p.setNombre(rs.getString("provNombre"));
 	
 				l.setCodPostal(rs.getInt("codPostal"));
-//				l.setProvincia(p);
 				l.setNombre(rs.getString("locNombre"));
 	
 				c.setNroDocumento(rs.getString("nroDocumento"));
@@ -202,9 +169,6 @@ public class DbHandlerClientes extends DbHandler{
 		try {
 			conn = this.getConnection();
 			LinkedList<Cliente> clientes = new LinkedList<Cliente>();
-			/*select c.nroDocumento, c.tipoDocumento, c.nombreApellido, c.email, c.fechaNacimiento, c.telefono, c.direccion, c.codPostal, p.nombre as 'provNombre', p.idProvincia, l.nombre as 'locNombre'"
-					+ " from Cliente c " + " inner join localidad l on l.codPostal = c.codPostal "
-					+ " inner join provincia p on p.idProvincia = l.idProvincia*/
 			String query = "select c.nroDocumento, c.tipoDocumento, c.nombreApellido, c.email, c.fechaNacimiento, c.telefono, c.direccion, c.codPostal, p.nombre as 'provNombre', p.idProvincia, l.nombre as 'locNombre'\r\n"
 					+ "from Cliente c inner join localidad l on l.codPostal = c.codPostal \r\n"
 					+ "inner join provincia p on p.idProvincia = l.idProvincia";
@@ -251,14 +215,14 @@ public class DbHandlerClientes extends DbHandler{
 		}
 	}
 
-	public Cliente loginCliente (String email, String password) {
+	public Cliente loginCliente (String email, String password) { // returns a client if it exists
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn;
 		Boolean verify = this.checkPassword(email, password);
 		try {
 			conn = this.getConnection();
-			String query = "SELECT c.nroDocumento, c.nombreApellido, c.email, c.fechaNacimiento, c.telefono, c.direccion, c.codPostal, l.nombre, p.idProvincia, p.nombre as 'provNombre' from cliente c \r\n"
+			String query = "SELECT c.nroDocumento, c.nombreApellido, c.email, c.fechaNacimiento, c.telefono, c.direccion, c.codPostal, c.user_type, l.nombre, p.idProvincia, p.nombre as 'provNombre' from cliente c \r\n"
 					+ "INNER JOIN localidad l on l.codPostal = c.codPostal \r\n"
 					+ "INNER JOIN provincia p on p.idProvincia = l.idProvincia\r\n"
 					+ "where c.email= ?";
@@ -287,7 +251,11 @@ public class DbHandlerClientes extends DbHandler{
 				c.setDireccion(rs.getString("direccion"));
 				c.setLocalidad(l);
 				c.setProvincia(p);
-				
+				if(rs.getString("user_type").equals("USER")) {
+					c.setUser_type(User_type.USER);
+				} else {
+					c.setUser_type(User_type.ADMIN);
+				}
 				return c;
 			}
 			
@@ -309,7 +277,7 @@ public class DbHandlerClientes extends DbHandler{
 
 	}
 	
-	public Cliente selectClientByIdPedido(Integer idPedido) {
+	public Cliente selectClientByIdPedido(Integer idPedido) { //returns a client by an order ID
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
 		Connection conn;
@@ -433,7 +401,7 @@ public class DbHandlerClientes extends DbHandler{
 		return false;	
 }
 	
-	public void updatePassword(Integer dni, String password) {
+	public void updatePassword(Integer dni, String password) { //updates password of a client
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		String salt = this.getSalt(dni);
@@ -458,7 +426,7 @@ public class DbHandlerClientes extends DbHandler{
 		}
 	}
 
-	public String getSalt(Integer dni) {
+	public String getSalt(Integer dni) { // generates salt for hashing a password
 		// TODO Auto-generated method stub
 		Connection conn = null;
 		PreparedStatement stmt = null;
@@ -486,5 +454,40 @@ public class DbHandlerClientes extends DbHandler{
 		}
 		return null;
 	}
+	
+	public Boolean verifyCreated(Integer dni, String email) { //verifies that an account is created
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	Connection conn;
+	Boolean verified = false;
+	try {
+		conn = this.getConnection();
+		String query = "select * from Cliente c where nroDocumento = ? or email = ?";
+		stmt = conn.prepareStatement(query);
+		stmt.setInt(1, dni);
+		stmt.setString(2, email);
+
+		rs = stmt.executeQuery();
+		if (rs != null && rs.next()) {
+				verified = true;
+				return verified;
+		}
+		
+	} catch (SQLException e) {
+		e.printStackTrace();
+		return null;
+	} finally {
+		try {
+			if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
+			this.releaseConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	return verified;
+}
 }
 

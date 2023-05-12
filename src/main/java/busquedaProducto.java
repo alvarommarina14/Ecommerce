@@ -101,12 +101,9 @@ public class busquedaProducto extends HttpServlet {
 					lc.setPrecio(precio);
 					lc.setDescripcion(descripcion);
 					listaLC.add(lc);
-//					dbLineaPedido.addLineaPedido(idPedido, prod, cantidad, precio, descripcion);
 				}
-//		prodsdeLista = dbLineaPedido.selectProductosList(idPedido);
 		
 		if(listaLC != null) {
-//		System.out.println("primer elemento "+listaLC.getFirst());
 		if(productos != null && listaLC.size() > 0) {
 		for(LineaCompra lc: listaLC){ 
 			for(Producto p: productos) {

@@ -1,5 +1,7 @@
 <%@page import="java.util.LinkedList"%>
+<%@page import="java.util.ArrayList"%>
 <%@page import="Entities.Producto"%>
+<%@page import="Entities.Cliente"%>
 <%@page import="Entities.EnvioDomicilio"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
@@ -68,51 +70,58 @@
     </style>
         
 <% 
-    LinkedList<EnvioDomicilio> lista = (LinkedList<EnvioDomicilio>) request.getAttribute("lista");
+    ArrayList<EnvioDomicilio> lista = (ArrayList<EnvioDomicilio>) request.getAttribute("lista");
 	LinkedList<EnvioDomicilio> envios = new LinkedList<EnvioDomicilio>();
-	for(int i = 0; i<6;i++){
-		envios.add(lista.pollFirst());
-	}
+	Cliente cliente = (Cliente) session.getAttribute("cliente");
 %>
 </head>
 <body>
  <header style="background-color: #505050;">
   <nav class="navbar navbar-expand-lg bg-body-tertiary" style="width: 50%;">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Home</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
     	
       <ul class="navbar-nav">
       <li class="nav-item dropdown">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Categorias</a>
+              <li class="nav-item">
+        <form action="homeAdmin" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" value="desc" name="order" style="background-color: inherit;border: 0;height: 100%;">Home</button>
+        </form>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Clientes</a>
+        
+    <form action="listaProductos" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" value="desc" name="order" style="background-color: inherit;border: 0;height: 100%;">Productos</button>
+    </form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Proveedores</a>
+        <form action="listaClientes" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" style="background-color: inherit;border: 0;height: 100%;">Clientes</button>
+        </form>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Empleados</a>
+                 <form action="listaProveedores" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" value="desc" name="order" style="background-color: inherit;border: 0;height: 100%;">Proveedores</button>
+        </form>
         </li>
-                <li class="nav-item">
-          <a class="nav-link" href="#">Productos</a>
+        <li class="nav-item">
+        <form action="listaCategorias" method="post" style="height: 100%;">
+          <button type="submit" class="nav-item" value="desc" name="order" style="background-color: inherit;border: 0;height: 100%;">Categorias</button>
+        </form>
         </li>
-                <li class="nav-item">
-          <a class="nav-link" href="#">Envios</a>
+        <li class="nav-item">
+         	<form action="listaEnvios" method="post" style="height: 100%;">
+          		<button type="submit" class="nav-item" value="desc" name="order" style="background-color: inherit;border: 0;height: 100%;">Envios</button>
+        	</form>
         </li>
-                <li class="nav-item">
-          <a class="nav-link" href="#">Compras</a>
+        <li class="nav-item">
+         	<form action="listaRetiros" method="post" style="height: 100%;">
+          		<button type="submit" class="nav-item" value="desc" name="order" style="background-color: inherit;border: 0;height: 100%;">Retiros</button>
+        	</form>
         </li>
-                <li class="nav-item">
-          <a class="nav-link" href="#">Pedidos</a>
-        </li>
-                <li class="nav-item">
-          <a class="nav-link" href="#">Sucursales</a>
+          <li class="nav-item">
+          	<a class="nav-link" href="#">Sucursales</a>
+          </li>
       </ul>
     </div>
   </div>
@@ -121,13 +130,13 @@
 </header>
 
 <main>
-<div>
-<section class="py-5 text-center container" id="ct-table">
+
+<section class="py-5 text-center container" id="ct-table" style="background-image: none;height: auto;">
     <div class="row py-lg-5">
       <div class="col-lg-6 col-md-8 mx-auto">
         <h1 class="fw-light">Bienvenido de nuevo,</h1>
-        <p class="lead text-muted">Usuario</p>
-        <p class="lead text-muted">Estas son las entregas que todavia estan pendientes</p>
+        <p class="lead text-muted"><%=cliente.getNombreApellido() %></p>
+        <p class="lead text-muted">Estas son algunas entregas pendientes</p>
         <p>
         <table class="table" style="margin: auto; background-color: white">
   <thead>
@@ -142,15 +151,15 @@
     </tr>
   </thead>
   <tbody>
-  <%for(EnvioDomicilio ed: lista){ %>
+  <%for(int i = 0; i<5; i++){ %>
     <tr>
-      <th scope="row"><%=ed.getPedido().getId() %></th>
-      <td><%= ed.getCliente().getNroDocumento()%></td>
-      <td><%= ed.getCliente().getNombreApellido()%></td>
-      <td><%= ed.getPedido().getFecha()%></td>
-      <td><%= ed.getFechaEntregaEstimada() %></td>
-      <td><%= ed.getCliente().getDireccion()%></td>
-      <td><%= ed.getCosto()%></td>
+      <th scope="row"><%=lista.get(i).getPedido().getId() %></th>
+      <td><%= lista.get(i).getCliente().getNroDocumento()%></td>
+      <td><%= lista.get(i).getCliente().getNombreApellido()%></td>
+      <td><%= lista.get(i).getPedido().getFecha()%></td>
+      <td><%= lista.get(i).getFechaEntregaEstimada() %></td>
+      <td><%= lista.get(i).getCliente().getDireccion()%></td>
+      <td><%= lista.get(i).getCosto()%></td>
     </tr> 
     <% } %>
   </tbody>
@@ -158,7 +167,7 @@
       </div>
     </div>
   </section>
-</div>
+
 
 </main>
 

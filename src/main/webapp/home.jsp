@@ -69,7 +69,7 @@
         
 <% 
 	Integer pedido = 0;
-	Cliente cli = (Cliente) session.getAttribute("cli");
+	Cliente cli = (Cliente) session.getAttribute("cliente");
 	String dni = cli.getNroDocumento();
 	String email = cli.getEmail();
 	String password = (String) request.getAttribute("password");

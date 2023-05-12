@@ -50,7 +50,7 @@ public class DbHandlerSucursales {
 		}
 	}
 
-	public LinkedList<Sucursal> selectSucursal() { // Devuelve todos las Sucursales
+	public LinkedList<Sucursal> selectSucursal() { // Devuelve todas las Sucursales
 
 		Statement stmt = null;
 		ResultSet rs = null;
@@ -129,72 +129,72 @@ public class DbHandlerSucursales {
 		}
 		return null;
 	}
-//
-//	public void deleteCat(int id) {
-//		Connection conn = null;
-//		PreparedStatement stmt = null;
-//		try {
-//			conn = this.getConnection();
-//			stmt = conn.prepareStatement("delete from Sucursal where idSucursal = ?");
-//			stmt.setInt(1, id);
-//			stmt.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (stmt != null)
-//					stmt.close();
-//				this.releaseConnection();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-//
-//	public void modCat(int id, String desc) {
-//		Connection conn = null;
-//		PreparedStatement stmt = null;
-//		try {
-//			conn = this.getConnection();
-//			stmt = conn.prepareStatement("update Sucursal set descripcion = ? where idSucursal = ?");
-//			stmt.setString(1, desc);
-//			stmt.setInt(2, id);
-//			stmt.executeUpdate();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if (stmt != null)
-//					stmt.close();
-//				this.releaseConnection();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
-//	public void nuevaCat( String desc) {
-//		PreparedStatement stmt = null;
-//		ResultSet rs = null;
-//		Connection conn = null;
-//		try{
-//			conn = this.getConnection();
-//			stmt = conn.prepareStatement("insert into Sucursal (Descripcion) values (?)");/* please ver si esta bien este query*/
-//			stmt.setString(1, desc);
-//			stmt.executeUpdate();
-//			rs = stmt.getGeneratedKeys();
-//		} catch (SQLException e){
-//			e.printStackTrace();
-//		}
-//		finally{
-//			try{if (rs != null)
-//				rs.close();
-//			if (stmt != null)
-//				stmt.close();
-//			this.releaseConnection();
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//	}
-//	}
+
+	public void deleteSucursal(int id) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = this.getConnection();
+			stmt = conn.prepareStatement("delete from Sucursal where idSucursal = ?");
+			stmt.setInt(1, id);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				this.releaseConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void modSucursal(int id, String desc) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		try {
+			conn = this.getConnection();
+			stmt = conn.prepareStatement("update Sucursal set descripcion = ? where idSucursal = ?");
+			stmt.setString(1, desc);
+			stmt.setInt(2, id);
+			stmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+				this.releaseConnection();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	public void nuevaSucursal( String desc) {
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		Connection conn = null;
+		try{
+			conn = this.getConnection();
+			stmt = conn.prepareStatement("insert into Sucursal (Descripcion) values (?)");
+			stmt.setString(1, desc);
+			stmt.executeUpdate();
+			rs = stmt.getGeneratedKeys();
+		} catch (SQLException e){
+			e.printStackTrace();
+		}
+		finally{
+			try{if (rs != null)
+				rs.close();
+			if (stmt != null)
+				stmt.close();
+			this.releaseConnection();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	}
 
 }

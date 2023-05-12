@@ -38,9 +38,7 @@
   <input value="0" type="hidden" name="login-attempts">
   <button type="submit" class="btn btn-primary" style="border-color: #d5931a; background-color: #d5931a">Ingresar</button>
 </form>
-<form action="homeAdmin" method="post" style="width: 75%">
-  <button type="submit" class="btn btn-primary" style="border-color: #d5931a; background-color: #d5931a">Admin Login</button>
-</form>
+
     </div>
  </div>
 
