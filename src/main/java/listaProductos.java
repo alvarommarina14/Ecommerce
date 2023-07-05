@@ -1,5 +1,7 @@
 import java.io.IOException;
 
+import java.io.PrintWriter;
+
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -11,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import Entities.Categoria;
 import Entities.Producto;
 import Entities.Proveedor;
-import data.DbHandler;
+import data.DbHandlerClientes;
 import data.DbHandlerCategorias;
 import data.DbHandlerProductos;
 import data.DbHandlerProveedores;
@@ -35,8 +37,10 @@ public class listaProductos extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		PrintWriter pw = response.getWriter();
 		// TODO Auto-generated method stub
 		response.getWriter().append("Served at: ").append(request.getContextPath());
+		pw.println("<link rel='stylesheet' href='css/bootstrap.css'></link>");
 	}
 
 	/**
@@ -50,6 +54,7 @@ public class listaProductos extends HttpServlet {
 		
 		String order = request.getParameter("order");
 		Producto producto = null;
+		System.out.println(order);
 		if(order.equalsIgnoreCase("desc")) {
 			
 		}else if(order.equalsIgnoreCase("add")) {

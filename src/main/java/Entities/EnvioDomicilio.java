@@ -4,21 +4,31 @@ import java.time.LocalDateTime;
 
 public class EnvioDomicilio extends Entrega{
 
-	float costo;
-	LocalDateTime fechaEntrega;
+	Double costo;
+	String fechaEntregaEstimada;
+	String fechaEntregaReal;
 	String direccionEnvio;
-	Localidad localidad = new Localidad();
-	public float getCosto() {
+	Cliente cliente = new Cliente();
+	Pedido pedido = new Pedido();
+	
+	public Double getCosto() {
 		return costo;
 	}
-	public void setCosto(float costo) {
+	public void setCosto(Double costo) {
 		this.costo = costo;
 	}
-	public LocalDateTime getFechaEntrega() {
-		return fechaEntrega;
+	
+	public String getFechaEntregaEstimada() {
+		return fechaEntregaEstimada;
 	}
-	public void setFechaEntrega(LocalDateTime fechaEntrega) {
-		this.fechaEntrega = fechaEntrega;
+	public void setFechaEntregaEstimada(String fechaEntregaEstimada) {
+		this.fechaEntregaEstimada = fechaEntregaEstimada;
+	}
+	public String getFechaEntregaReal() {
+		return fechaEntregaReal;
+	}
+	public void setFechaEntregaReal(String fechaEntregaReal) {
+		this.fechaEntregaReal = fechaEntregaReal;
 	}
 	public String getDireccionEnvio() {
 		return direccionEnvio;
@@ -26,12 +36,19 @@ public class EnvioDomicilio extends Entrega{
 	public void setDireccionEnvio(String direccionEnvio) {
 		this.direccionEnvio = direccionEnvio;
 	}
-	public Localidad getLocalidad() {
-		return localidad;
+	public Cliente getCliente() {
+		return cliente;
 	}
-	public void setLocalidad(Localidad localidad) {
-		this.localidad = localidad;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
+	public Pedido getPedido() {
+		return pedido;
+	}
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+
 	
 	
 }

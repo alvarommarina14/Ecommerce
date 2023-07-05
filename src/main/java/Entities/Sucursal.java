@@ -4,7 +4,14 @@ public class Sucursal {
 	
 	int id;
 	String direccion;
-	Localidad localidad = new Localidad();
+	int codPostal;
+	
+	public int getCodPostal() {
+		return codPostal;
+	}
+	public void setCodPostal(int codPostal) {
+		this.codPostal = codPostal;
+	}
 	public int getId() {
 		return id;
 	}
@@ -17,13 +24,7 @@ public class Sucursal {
 	public void setDireccion(String direccion) {
 		this.direccion = direccion;
 	}
-	public Localidad getLocalidad() {
-		return localidad;
-	}
-	public void setLocalidad(Localidad localidad) {
-		this.localidad = localidad;
-	}
-	
+
 	
 
 }

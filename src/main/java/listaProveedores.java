@@ -1,6 +1,5 @@
-
-
 import java.io.IOException;
+
 import java.util.LinkedList;
 
 import javax.servlet.ServletException;
@@ -12,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import Entities.Categoria;
 import Entities.Producto;
 import Entities.Proveedor;
-import data.DbHandler;
+import data.DbHandlerClientes;
 import data.DbHandlerCategorias;
 import data.DbHandlerProductos;
 import data.DbHandlerProveedores;
@@ -56,7 +55,8 @@ public class listaProveedores extends HttpServlet {
 			String cuil = request.getParameter("cuil");
 			String NroTelefono = request.getParameter("nro");
 			String tipotelefono = request.getParameter("tipo");
-			dbProveedores.nuevoProv(nombre, cuil, NroTelefono, tipotelefono);
+			String email = request.getParameter("email");
+			dbProveedores.nuevoProv(nombre, cuil, NroTelefono, tipotelefono, email);
 		}else if(order.split("-")[0].equalsIgnoreCase("del")) {
 		int id = Integer.parseInt(order.split("-")[1]);
 		dbProveedores.deleteProv(id);
@@ -71,19 +71,9 @@ public class listaProveedores extends HttpServlet {
 			String cuil = request.getParameter("cuil");
 			String NroTelefono = request.getParameter("nro");
 			String tipotelefono = request.getParameter("tipo");
-			dbProveedores.modProv(id, nombre, cuil, NroTelefono, tipotelefono);
-			
-		}else if(order.equalsIgnoreCase("volver")) {
-			LinkedList<Producto> productos =  dbProductos.selectProducto("desc");
-			LinkedList<Categoria> categorias = dbCategorias.selectCategoria();
-			LinkedList<Proveedor> proveedores = dbProveedores.selectProveedor();
-			
-			request.setAttribute("productos", productos);
-			request.setAttribute("categorias", categorias);
-			request.setAttribute("proveedores", proveedores);
-
-			request.getRequestDispatcher("listaProductos.jsp").forward(request, response);
-		}
+			String email = request.getParameter("email");
+			dbProveedores.modProv(id, nombre, cuil, NroTelefono, tipotelefono, email);
+		}	
 		
 		request.setAttribute("proveedor", proveedor);
 		

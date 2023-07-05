@@ -1,7 +1,6 @@
 package Entities;
 
 
-
 public class Producto {
 	
 	int id;
@@ -10,8 +9,16 @@ public class Producto {
 	Proveedor proveedor = new Proveedor();
 	Categoria categoria = new Categoria();
 	Double precio;
+	byte[] imageBytes;
+
 	
-	
+
+	public byte[] getImageBytes() {
+		return imageBytes;
+	}
+	public void setImageBytes(byte[] imageBytes) {
+		this.imageBytes = imageBytes;
+	}
 	public int getId() {
 		return id;
 	}
